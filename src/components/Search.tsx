@@ -24,7 +24,7 @@ function Search() {
   const [apiInformation, setApiInformation] = useState({
     man_id: "",
     category_id: 0,
-    is_car: false,
+    is_car: true,
     is_moto: false,
     is_spec: false,
   });
