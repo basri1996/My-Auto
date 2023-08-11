@@ -24,10 +24,27 @@ function Search() {
   const [apiInformation, setApiInformation] = useState({
     man_id: "",
     category_id: 0,
+    model_id: "",
+    forRent: false,
+    forSale: false,
     is_car: true,
     is_moto: false,
     is_spec: false,
   });
+
+  console.log(apiInformation);
+  console.log("modelebis logi", Models);
+
+  useEffect(() => {
+    if (apiInformation.man_id) {
+      fetchModels(apiInformation.man_id);
+    }
+  }, [
+    apiInformation.man_id,
+    apiInformation.is_car,
+    apiInformation.is_moto,
+    apiInformation.is_spec,
+  ]);
 
   const Type = ["იყიდება", "ქირავდება"];
   const fetchModels = async (number: any) => {
@@ -39,13 +56,16 @@ function Search() {
 
     if (apiInformation.is_car === true) {
       const filteredData = Alldata.filter((item: any) => item.is_car === true);
-      return setModels(filteredData);
+      setModels(filteredData);
+      return console.log("car");
     } else if (apiInformation.is_moto === true) {
       const filteredData = Alldata.filter((item: any) => item.is_moto === true);
-      return setModels(filteredData);
+      setModels(filteredData);
+      return console.log("moto");
     } else if (apiInformation.is_spec === true) {
       const filteredData = Alldata.filter((item: any) => item.is_spec === true);
-      return setModels(filteredData);
+      setModels(filteredData);
+      return console.log("spec");
     }
   };
 

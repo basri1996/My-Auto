@@ -19,9 +19,32 @@ function InputComponent({
       category_id: MyCategorie.category_id,
     }));
   }
+  function GetModelId(model: any) {
+    const MyModel = filteredData.find((item: any) => item.model_name === model);
+    console.log(MyModel);
+    console.log(model);
+    setApiInformation((prev: any) => ({
+      ...prev,
+      model_id: MyModel.model_id,
+    }));
+  }
+
+  function IsForRent(text: any) {
+    if (text === "იყიდება") {
+      setApiInformation((prev: any) => ({
+        ...prev,
+        forSale: true,
+      }));
+    } else {
+      setApiInformation((prev: any) => ({
+        ...prev,
+        forRent: true,
+      }));
+    }
+  }
 
   let OptionVar = (
-    <Input>
+    <Input onChange={(e: any) => IsForRent(e.target.value)}>
       {filteredData.map((item: any) => (
         <Option key={item}>{item}</Option>
       ))}
@@ -59,7 +82,11 @@ function InputComponent({
   }
   if (title === "მოდელი") {
     OptionVar = (
-      <Input>
+      <Input
+        onChange={(e: any) => {
+          GetModelId(e.target.value);
+        }}
+      >
         <Option>ყველა მოდელი</Option>
         {filteredData.map((item: any) => (
           <Option key={item.model_id}>{item.model_name}</Option>
