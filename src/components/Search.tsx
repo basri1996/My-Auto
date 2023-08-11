@@ -32,9 +32,6 @@ function Search() {
     is_spec: false,
   });
 
-  console.log(apiInformation);
-  console.log("modelebis logi", Models);
-
   useEffect(() => {
     if (apiInformation.man_id) {
       fetchModels(apiInformation.man_id);
@@ -56,20 +53,15 @@ function Search() {
 
     if (apiInformation.is_car === true) {
       const filteredData = Alldata.filter((item: any) => item.is_car === true);
-      setModels(filteredData);
-      return console.log("car");
+      return setModels(filteredData);
     } else if (apiInformation.is_moto === true) {
       const filteredData = Alldata.filter((item: any) => item.is_moto === true);
-      setModels(filteredData);
-      return console.log("moto");
+      return setModels(filteredData);
     } else if (apiInformation.is_spec === true) {
       const filteredData = Alldata.filter((item: any) => item.is_spec === true);
-      setModels(filteredData);
-      return console.log("spec");
+      return setModels(filteredData);
     }
   };
-
-  console.log(apiInformation);
 
   function FilterBrands(model: any) {
     const brands = Brands.filter((item) => item[model] === "1");
