@@ -5,7 +5,7 @@ import tractor from "../assets/tractor.svg";
 import car2 from "../assets/car2.svg";
 import moto2 from "../assets/moto2.svg";
 import tractor2 from "../assets/tractor2.svg";
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import InputComponent from "./InputComponent";
 import axios from "axios";
 
@@ -31,6 +31,10 @@ function Search() {
     is_moto: false,
     is_spec: false,
   });
+
+  const RenderCount = useRef(0);
+
+  console.log(++RenderCount.current);
 
   useEffect(() => {
     if (apiInformation.man_id) {
