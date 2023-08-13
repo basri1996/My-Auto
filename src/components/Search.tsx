@@ -5,36 +5,45 @@ import tractor from "../assets/tractor.svg";
 import car2 from "../assets/car2.svg";
 import moto2 from "../assets/moto2.svg";
 import tractor2 from "../assets/tractor2.svg";
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useCallback } from "react";
 import InputComponent from "./InputComponent";
 import axios from "axios";
 
-function Search() {
-  const [isActive, setIsActive] = useState({
-    car: true,
-    moto: false,
-    tractor: false,
+function Search({ setMappedData, setCardInformation }) {
+  const [Data, setData] = useState({
+    brands: [],
+    filteredBrands: [],
+    categories: [],
+    filteredCategories: [],
+    models: [],
   });
-  const [isDollar, setIsDollar] = useState(false);
-  const [Brands, setBrands] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
-  const [categories, setCategories] = useState([]);
-  const [filteredCategories, setFilteredCategories] = useState([]);
-  const [Models, setModels] = useState([]);
+
+  console.log("Data :", Data);
+
   const [apiInformation, setApiInformation] = useState({
     man_id: "",
     category_id: 0,
     model_id: "",
     forRent: false,
-    forSale: false,
+    forSale: true,
     is_car: true,
     is_moto: false,
     is_spec: false,
+    PriceFrom: 0,
+    PriceTo: 0,
+    isDollar: false,
   });
 
-  const RenderCount = useRef(0);
+  console.log("information :", apiInformation);
 
-  console.log(++RenderCount.current);
+  async function SearchApi() {
+    const response = await axios.get(
+      `https://api2.myauto.ge/ka/products?Mans=${apiInformation.man_id}`
+    );
+
+    console.log(response);
+    setMappedData(response.data.data.items);
+  }
 
   useEffect(() => {
     if (apiInformation.man_id) {
@@ -57,43 +66,70 @@ function Search() {
 
     if (apiInformation.is_car === true) {
       const filteredData = Alldata.filter((item: any) => item.is_car === true);
-      return setModels(filteredData);
+      return setData((prev: any) => ({
+        ...prev,
+        models: filteredData,
+      }));
     } else if (apiInformation.is_moto === true) {
       const filteredData = Alldata.filter((item: any) => item.is_moto === true);
-      return setModels(filteredData);
+      return setData((prev: any) => ({
+        ...prev,
+        models: filteredData,
+      }));
     } else if (apiInformation.is_spec === true) {
       const filteredData = Alldata.filter((item: any) => item.is_spec === true);
-      return setModels(filteredData);
+      return setData((prev: any) => ({
+        ...prev,
+        models: filteredData,
+      }));
     }
   };
 
   function FilterBrands(model: any) {
-    const brands = Brands.filter((item) => item[model] === "1");
-    setFilteredData(brands);
+    const brands = Data.brands.filter((item) => item[model] === "1");
+
+    setData((prev: any) => ({
+      ...prev,
+      filteredBrands: brands,
+    }));
   }
   function FilterCategories(number: any) {
-    const Categories = categories.filter((item) => {
+    const Categories = Data.categories.filter((item) => {
       return item.category_type === number;
     });
-    setFilteredCategories(Categories);
+
+    setData((prev: any) => ({
+      ...prev,
+      filteredCategories: Categories,
+    }));
   }
   function HandleIsActive(title: any) {
-    setIsActive({
-      car: false,
-      moto: false,
-      tractor: false,
+    setApiInformation((prev: any) => ({
+      ...prev,
+      is_car: false,
+      is_spec: false,
+      is_moto: false,
       [title]: true,
-    });
+    }));
   }
+
   const fetchBrands = useCallback(async () => {
     const response = await axios.get(
       "https://static.my.ge/myauto/js/mans.json"
     );
-    setBrands(response.data);
+
+    setData((prev: any) => ({
+      ...prev,
+      brands: response.data,
+    }));
   }, []);
   const fetchCategories = useCallback(async () => {
     const response = await axios.get("https://api2.myauto.ge/ka/cats/get");
-    setCategories(response.data.data);
+
+    setData((prev: any) => ({
+      ...prev,
+      categories: response.data.data,
+    }));
   }, []);
 
   useEffect(() => {
@@ -105,61 +141,43 @@ function Search() {
 
   useEffect(() => {
     FilterBrands("is_car");
-  }, [Brands]);
+  }, [Data.brands]);
   useEffect(() => {
     FilterCategories(0);
-  }, [categories]);
+  }, [Data.categories]);
 
   return (
     <MainDiv>
       <CategoryDiv>
         <IconDiv1
-          car={isActive.car}
+          car={apiInformation.is_car}
           onClick={() => {
-            HandleIsActive("car");
             FilterBrands("is_car");
             FilterCategories(0);
-            setApiInformation((prev: any) => ({
-              ...prev,
-              is_car: true,
-              is_spec: false,
-              is_moto: false,
-            }));
+            HandleIsActive("is_car");
           }}
         >
-          <Icon src={isActive.car ? car2 : car} />
+          <Icon src={apiInformation.is_car ? car2 : car} />
         </IconDiv1>
         <IconDiv2
-          moto={isActive.moto}
+          moto={apiInformation.is_moto}
           onClick={() => {
-            HandleIsActive("moto");
             FilterBrands("is_moto");
             FilterCategories(2);
-            setApiInformation((prev: any) => ({
-              ...prev,
-              is_car: false,
-              is_spec: false,
-              is_moto: true,
-            }));
+            HandleIsActive("is_moto");
           }}
         >
-          <Icon src={isActive.moto ? moto2 : moto} />
+          <Icon src={apiInformation.is_moto ? moto2 : moto} />
         </IconDiv2>
         <IconDiv3
-          tractor={isActive.tractor}
+          tractor={apiInformation.is_spec}
           onClick={() => {
-            HandleIsActive("tractor");
             FilterBrands("is_spec");
             FilterCategories(1);
-            setApiInformation((prev: any) => ({
-              ...prev,
-              is_car: false,
-              is_spec: true,
-              is_moto: false,
-            }));
+            HandleIsActive("is_spec");
           }}
         >
-          <Icon src={isActive.tractor ? tractor2 : tractor} />
+          <Icon src={apiInformation.is_spec ? tractor2 : tractor} />
         </IconDiv3>
       </CategoryDiv>
       <InputDiv>
@@ -171,40 +189,73 @@ function Search() {
         <InputComponent
           setApiInformation={setApiInformation}
           title={"მწარმოებელი"}
-          filteredData={filteredData}
+          filteredData={Data.filteredBrands}
           fetchModels={fetchModels}
+          setCardInformation={setCardInformation}
         />
         <InputComponent
           setApiInformation={setApiInformation}
           title={"კატეგორია"}
-          filteredData={filteredCategories}
+          filteredData={Data.filteredCategories}
         />
         <InputComponent
           setApiInformation={setApiInformation}
           title={"მოდელი"}
-          filteredData={Models}
+          filteredData={Data.models}
         />
       </InputDiv>
       <PriceDiv>
         <TopDiv>
           <PriceLabel>ფასი</PriceLabel>
           <DollarGelDiv>
-            <Gel isDollar={isDollar} onClick={() => setIsDollar(false)}>
+            <Gel
+              isDollar={apiInformation.isDollar}
+              onClick={() => {
+                setApiInformation((prev: any) => ({
+                  ...prev,
+                  isDollar: false,
+                }));
+              }}
+            >
               ₾
             </Gel>
-            <Dollar isDollar={isDollar} onClick={() => setIsDollar(true)}>
+            <Dollar
+              isDollar={apiInformation.isDollar}
+              onClick={() => {
+                setApiInformation((prev: any) => ({
+                  ...prev,
+                  isDollar: true,
+                }));
+              }}
+            >
               $
             </Dollar>
           </DollarGelDiv>
         </TopDiv>
         <BottomDiv>
-          <PriceInputMin placeholder="დან" />
+          <PriceInputMin
+            placeholder="დან"
+            onChange={(e: any) => {
+              setApiInformation((prev: any) => ({
+                ...prev,
+                PriceFrom: +e.target.value,
+              }));
+            }}
+          />
           <LineDiv />
-          <PriceInputMax placeholder="მდე" />
+          <PriceInputMax
+            placeholder="მდე"
+            onChange={(e: any) => {
+              setApiInformation((prev: any) => ({
+                ...prev,
+                PriceTo: +e.target.value,
+              }));
+            }}
+          />
         </BottomDiv>
       </PriceDiv>
       <ButtonDiv>
-        <ButtonSearch>ძებნა</ButtonSearch>
+        <ButtonSearch onClick={() => SearchApi()}>ძებნა</ButtonSearch>
       </ButtonDiv>
     </MainDiv>
   );
@@ -214,9 +265,18 @@ export default Search;
 
 const MainDiv = styled.div`
   width: 100%;
+  height: 700px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 12px 12px 0 0;
   margin-top: 16px;
+  @media (min-width: 768px) {
+    width: 75%;
+    margin-left: 5%;
+  }
+  @media (min-width: 1440px) {
+    width: 30%;
+    margin-left: 5%;
+  }
 `;
 
 const CategoryDiv = styled.div`

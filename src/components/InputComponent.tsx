@@ -5,8 +5,10 @@ function InputComponent({
   filteredData,
   fetchModels,
   setApiInformation,
+  setCardInformation,
 }: any) {
   function GetManId(brand: any) {
+    setCardInformation((prev: any) => ({ ...prev, brandName: brand }));
     const Mybrand = filteredData.find((item: any) => item.man_name === brand);
     setApiInformation((prev: any) => ({ ...prev, man_id: Mybrand.man_id }));
     fetchModels(Mybrand.man_id);
@@ -34,11 +36,13 @@ function InputComponent({
       setApiInformation((prev: any) => ({
         ...prev,
         forSale: true,
+        forRent: false,
       }));
     } else {
       setApiInformation((prev: any) => ({
         ...prev,
         forRent: true,
+        forSale: false,
       }));
     }
   }

@@ -1,17 +1,26 @@
 import styled from "styled-components";
 import icon from "../assets/done-path.png";
-import langrover from "../assets/Screenshot 2021-10-25 at 6.15 1.png";
 import flag from "../assets/flag - geo.png";
-function Card() {
+function Card({
+  photo,
+  ProductId,
+  Var,
+  price,
+  year,
+  carRun,
+  carname,
+  engine,
+}: any) {
+  console.log(photo, ProductId, Var, price);
   return (
     <MainDiv>
       <HeaderDiv>
-        <Title>LAND ROVER Range Rover Evoque</Title>
-        <Year>2020 წ</Year>
+        <Title>{carname}</Title>
+        <Year>{year} წ</Year>
       </HeaderDiv>
       <AfterHeader>
         <PriceDiv>
-          <Price>108,122</Price>
+          <Price>{price.toLocaleString()}</Price>
           <Gel>₾</Gel>
         </PriceDiv>
         <Clearance>
@@ -19,11 +28,13 @@ function Card() {
           <Text>განბაჟებული</Text>
         </Clearance>
       </AfterHeader>
-      <AutoImage src={langrover} />
+      <AutoImage
+        src={`https://static.my.ge/myauto/photos/${photo}/thumbs/${ProductId}_1.jpg?v=${Var}`}
+      />
       <FooterDiv>
         <LeftColumn>
-          <InfoTag>173 000 კმ</InfoTag>
-          <InfoTag>3.0 ბენზინი</InfoTag>
+          <InfoTag>{carRun} კმ</InfoTag>
+          <InfoTag>{engine} ბენზინი</InfoTag>
           <InfoTag>ავტომატიკა</InfoTag>
         </LeftColumn>
         <RightColumn>
@@ -46,6 +57,14 @@ const MainDiv = styled.div`
   background-color: rgba(255, 255, 255, 1);
   margin-top: 16px;
   padding: 15px 10%;
+  width: 100%;
+  border-radius: 12px 12px 0 0;
+  @media (min-width: 768px) {
+    width: 90%;
+  }
+  @media (min-width: 1440px) {
+    width: 50%;
+  }
 `;
 
 const HeaderDiv = styled.div`
