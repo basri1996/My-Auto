@@ -13,44 +13,59 @@ function Card({
 }: any) {
   console.log(photo, ProductId, Var, price);
   return (
-    <MainDiv>
-      <HeaderDiv>
-        <Title>{carname}</Title>
-        <Year>{year} წ</Year>
-      </HeaderDiv>
-      <AfterHeader>
-        <PriceDiv>
-          <Price>{price.toLocaleString()}</Price>
-          <Gel>₾</Gel>
-        </PriceDiv>
-        <Clearance>
-          <Icon src={icon} />
-          <Text>განბაჟებული</Text>
-        </Clearance>
-      </AfterHeader>
-      <AutoImage
+    <ResponsiveDiv>
+      <AutoImage2
         src={`https://static.my.ge/myauto/photos/${photo}/thumbs/${ProductId}_1.jpg?v=${Var}`}
       />
-      <FooterDiv>
-        <LeftColumn>
-          <InfoTag>{carRun} კმ</InfoTag>
-          <InfoTag>{engine} ბენზინი</InfoTag>
-          <InfoTag>ავტომატიკა</InfoTag>
-        </LeftColumn>
-        <RightColumn>
-          <InfoTag>სედანი</InfoTag>
-          <InfoTag>საჭე მარცხნივ</InfoTag>
-          <LocationTag>
-            <Icon src={flag} />
-            <InfoTag>თბილისი</InfoTag>
-          </LocationTag>
-        </RightColumn>
-      </FooterDiv>
-    </MainDiv>
+      <MainDiv>
+        <HeaderDiv>
+          <Title>{carname}</Title>
+          <Year>{year} წ</Year>
+        </HeaderDiv>
+        <AfterHeader>
+          <PriceDiv>
+            <Price>{price.toLocaleString()}</Price>
+            <Gel>₾</Gel>
+          </PriceDiv>
+          <Clearance>
+            <Icon src={icon} />
+            <Text>განბაჟებული</Text>
+          </Clearance>
+        </AfterHeader>
+        <AutoImage
+          src={`https://static.my.ge/myauto/photos/${photo}/thumbs/${ProductId}_1.jpg?v=${Var}`}
+        />
+        <FooterDiv>
+          <LeftColumn>
+            <InfoTag>{carRun} კმ</InfoTag>
+            <InfoTag>{engine} ბენზინი</InfoTag>
+            <InfoTag>ავტომატიკა</InfoTag>
+          </LeftColumn>
+          <RightColumn>
+            <InfoTag>სედანი</InfoTag>
+            <InfoTag>საჭე მარცხნივ</InfoTag>
+            <LocationTag>
+              <Icon src={flag} />
+              <InfoTag>თბილისი</InfoTag>
+            </LocationTag>
+          </RightColumn>
+        </FooterDiv>
+      </MainDiv>
+    </ResponsiveDiv>
   );
 }
 
 export default Card;
+const ResponsiveDiv = styled.div`
+  @media (min-width: 1440px) {
+    display: flex;
+    background-color: rgba(255, 255, 255, 1);
+    width: 80%;
+    height: 180px;
+    align-items: center;
+    border-radius: 12px;
+  }
+`;
 
 const MainDiv = styled.div`
   width: 100%;
@@ -141,6 +156,19 @@ const AutoImage = styled.img`
   margin-top: 15px;
   border-radius: 16px;
   width: 100%;
+  @media (min-width: 1440px) {
+    display: none;
+  }
+`;
+const AutoImage2 = styled.img`
+  display: none;
+  @media (min-width: 1440px) {
+    display: inline-block;
+    border-radius: 10px;
+    width: 182px;
+    height: 144px;
+    margin-left: 16px;
+  }
 `;
 
 const FooterDiv = styled.div`

@@ -55,6 +55,8 @@ const CardWrapper = styled.div`
   align-items: center;
   flex-direction: column;
   width: 100%;
+  gap: 16px;
+  margin-top: 16px;
 `;
 
 const WrapperDiv = styled.div`

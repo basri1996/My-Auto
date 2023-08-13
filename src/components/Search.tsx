@@ -38,7 +38,7 @@ function Search({ setMappedData, setCardInformation }) {
 
   async function SearchApi() {
     const response = await axios.get(
-      `https://api2.myauto.ge/ka/products?Mans=${apiInformation.man_id}`
+      `https://api2.myauto.ge/ka/products?Mans=${apiInformation.man_id}.${apiInformation.model_id}`
     );
 
     console.log(response);
