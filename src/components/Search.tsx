@@ -9,7 +9,7 @@ import { useState, useEffect, useCallback } from "react";
 import InputComponent from "./InputComponent";
 import axios from "axios";
 
-function Search({ setMappedData, setCardInformation }) {
+function Search({ setMappedData, setPirmebi, setDataModel }) {
   const [Data, setData] = useState({
     brands: [],
     filteredBrands: [],
@@ -18,28 +18,49 @@ function Search({ setMappedData, setCardInformation }) {
     models: [],
   });
 
-  console.log("Data :", Data);
-
   const [apiInformation, setApiInformation] = useState({
     man_id: "",
-    category_id: 0,
+    category_id: "",
     model_id: "",
     forRent: false,
     forSale: true,
     is_car: true,
     is_moto: false,
     is_spec: false,
-    PriceFrom: 0,
-    PriceTo: 0,
+    PriceFrom: "",
+    PriceTo: "",
     isDollar: false,
   });
 
-  console.log("information :", apiInformation);
+  async function Api(number: any) {
+    const response = await axios.get(
+      `https://api2.myauto.ge/ka/getManModels?man_id=${number}`
+    );
+    response.data.data.forEach((item: any) =>
+      setDataModel((prev: any) => [...prev, item])
+    );
+  }
+
+  async function ModelAdder() {
+    const response = await axios.get(
+      "https://static.my.ge/myauto/js/mans.json"
+    );
+    response.data.forEach((item: any) => Api(item.man_id));
+  }
+  useEffect(() => {
+    ModelAdder();
+  }, []);
 
   async function SearchApi() {
-    const response = await axios.get(
-      `https://api2.myauto.ge/ka/products?Mans=${apiInformation.man_id}.${apiInformation.model_id}`
-    );
+    const response = await axios.get(`https://api2.myauto.ge/ka/products`, {
+      params: {
+        Mans: `${apiInformation.man_id}${apiInformation.model_id}`,
+        Cats: apiInformation.category_id,
+        PriceFrom: apiInformation.PriceFrom,
+        PriceTo: apiInformation.PriceTo,
+        ForRent: apiInformation.forRent ? "1" : "0",
+      },
+    });
 
     console.log(response);
     setMappedData(response.data.data.items);
@@ -122,6 +143,7 @@ function Search({ setMappedData, setCardInformation }) {
       ...prev,
       brands: response.data,
     }));
+    setPirmebi(response.data);
   }, []);
   const fetchCategories = useCallback(async () => {
     const response = await axios.get("https://api2.myauto.ge/ka/cats/get");
@@ -191,7 +213,6 @@ function Search({ setMappedData, setCardInformation }) {
           title={"მწარმოებელი"}
           filteredData={Data.filteredBrands}
           fetchModels={fetchModels}
-          setCardInformation={setCardInformation}
         />
         <InputComponent
           setApiInformation={setApiInformation}
@@ -255,7 +276,13 @@ function Search({ setMappedData, setCardInformation }) {
         </BottomDiv>
       </PriceDiv>
       <ButtonDiv>
-        <ButtonSearch onClick={() => SearchApi()}>ძებნა</ButtonSearch>
+        <ButtonSearch
+          onClick={() => {
+            SearchApi();
+          }}
+        >
+          ძებნა
+        </ButtonSearch>
       </ButtonDiv>
     </MainDiv>
   );
@@ -315,7 +342,7 @@ const IconDiv3 = styled.div<{ tractor: any }>`
   justify-content: center;
   height: 47px;
   align-items: center;
-  width: 33.3%;
+  width: 33.4%;
   border-radius: 0 12px 0 0;
   border: 1px solid rgba(226, 229, 235, 1);
   border-bottom: ${(props) =>

@@ -1,6 +1,8 @@
 import styled from "styled-components";
 import icon from "../assets/done-path.png";
 import flag from "../assets/flag - geo.png";
+
+// import wheel from "../assets/sache.png";
 function Card({
   photo,
   ProductId,
@@ -8,10 +10,55 @@ function Card({
   price,
   year,
   carRun,
-  carname,
+  man_id,
   engine,
+  customs_passed,
+  right_wheel,
+  gear_type_id,
+  fuel_type_id,
+  pirmebi,
+  modelebi,
+  brendebi,
+  model_id,
 }: any) {
-  console.log(photo, ProductId, Var, price);
+  console.log("man_id", man_id, "brands arr", modelebi);
+  let GearType = () => {
+    if (gear_type_id == "1") {
+      return "მექანიკა";
+    } else if (gear_type_id == "2") {
+      return "ავტომატიკა";
+    } else if (gear_type_id == "3") {
+      return "ტიპტრონიკი";
+    } else if (gear_type_id == "4") {
+      return "ვარიატორი";
+    }
+  };
+
+  let FuelType = () => {
+    if (fuel_type_id == "2") {
+      return "ბენზინი";
+    } else if (fuel_type_id == "3") {
+      return "დიზელი";
+    } else if (fuel_type_id == "8") {
+      return "ბუნებრივი გაზი";
+    } else if (fuel_type_id == "9") {
+      return "თხევადი გაზი";
+    } else if (fuel_type_id == "6") {
+      return "ჰიბრიდი";
+    } else if (fuel_type_id == "7") {
+      return "ელექტრო";
+    }
+  };
+
+  let TitleFinder = (id: any) => {
+    let data = pirmebi.find((item: any) => item.man_id == id);
+    return data.man_name;
+  };
+  let ModelFinder = (id: any) => {
+    let data = brendebi.find((item: any) => item.model_id == id);
+    return data.model_name;
+  };
+
   return (
     <ResponsiveDiv>
       <AutoImage2
@@ -19,18 +66,26 @@ function Card({
       />
       <MainDiv>
         <HeaderDiv>
-          <Title>{carname}</Title>
+          <Title>
+            {TitleFinder(man_id)} {ModelFinder(model_id)}
+          </Title>
           <Year>{year} წ</Year>
         </HeaderDiv>
         <AfterHeader>
           <PriceDiv>
-            <Price>{price.toLocaleString()}</Price>
-            <Gel>₾</Gel>
+            <Price price={price}>
+              {price == 0 ? "ფასი შეთანხმებით" : price.toLocaleString()}
+            </Price>
+            {price != 0 && <Gel>₾</Gel>}
           </PriceDiv>
-          <Clearance>
-            <Icon src={icon} />
-            <Text>განბაჟებული</Text>
-          </Clearance>
+          {customs_passed ? (
+            <Clearance>
+              <Icon src={icon} />
+              <Text>განბაჟებული</Text>
+            </Clearance>
+          ) : (
+            <NoClearance>განბაჟება 2,176 ₾</NoClearance>
+          )}
         </AfterHeader>
         <AutoImage
           src={`https://static.my.ge/myauto/photos/${photo}/thumbs/${ProductId}_1.jpg?v=${Var}`}
@@ -38,12 +93,16 @@ function Card({
         <FooterDiv>
           <LeftColumn>
             <InfoTag>{carRun} კმ</InfoTag>
-            <InfoTag>{engine} ბენზინი</InfoTag>
-            <InfoTag>ავტომატიკა</InfoTag>
+            <InfoTag>
+              {engine}
+
+              {FuelType()}
+            </InfoTag>
+            <InfoTag>{GearType()}</InfoTag>
           </LeftColumn>
           <RightColumn>
             <InfoTag>სედანი</InfoTag>
-            <InfoTag>საჭე მარცხნივ</InfoTag>
+            <InfoTag>{right_wheel ? "მარჯვენა" : "მარცხენა"}</InfoTag>
             <LocationTag>
               <Icon src={flag} />
               <InfoTag>თბილისი</InfoTag>
@@ -113,9 +172,9 @@ const PriceDiv = styled.div`
   align-items: center;
   gap: 5px;
 `;
-const Price = styled.h1`
+const Price = styled.h1<{ price: string }>`
   font-family: "YourFontName";
-  font-size: 20px;
+  font-size: ${(props) => (props.price == "0" ? "13px" : "20px")};
   font-weight: 700;
   line-height: 28px;
 `;
@@ -140,6 +199,14 @@ const Clearance = styled.div`
   justify-content: center;
   align-items: center;
   gap: 5px;
+`;
+
+const NoClearance = styled.h1`
+  font-family: "YourFontName";
+  font-size: 11px;
+  font-weight: 500;
+  line-height: 13px;
+  color: rgba(255, 59, 48, 1);
 `;
 
 const Text = styled.h2`

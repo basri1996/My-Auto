@@ -5,10 +5,8 @@ function InputComponent({
   filteredData,
   fetchModels,
   setApiInformation,
-  setCardInformation,
 }: any) {
   function GetManId(brand: any) {
-    setCardInformation((prev: any) => ({ ...prev, brandName: brand }));
     const Mybrand = filteredData.find((item: any) => item.man_name === brand);
     setApiInformation((prev: any) => ({ ...prev, man_id: Mybrand.man_id }));
     fetchModels(Mybrand.man_id);
@@ -27,7 +25,7 @@ function InputComponent({
     console.log(model);
     setApiInformation((prev: any) => ({
       ...prev,
-      model_id: MyModel.model_id,
+      model_id: "." + MyModel.model_id,
     }));
   }
 

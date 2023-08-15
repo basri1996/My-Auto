@@ -6,12 +6,13 @@ import Header from "./components/Header";
 import Search from "./components/Search";
 import Card from "./components/Card";
 import { useState } from "react";
+
 function App() {
   const [MappedData, setMappedData] = useState([]);
-  const [cardInformation, setCardInformation] = useState({
-    brandName: "",
-  });
-  console.log("map :", MappedData);
+  const [pirmebi, setPirmebi] = useState([]);
+  const [DataModel, setDataModel] = useState([]);
+
+  console.log("Chemebi", DataModel);
 
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -26,7 +27,8 @@ function App() {
       <WrapperDiv>
         <Search
           setMappedData={setMappedData}
-          setCardInformation={setCardInformation}
+          setPirmebi={setPirmebi}
+          setDataModel={setDataModel}
         />
         <CardWrapper>
           {MappedData.map((item: any) => (
@@ -34,11 +36,19 @@ function App() {
               photo={item.photo}
               ProductId={item.car_id}
               Var={item.photo_ver}
-              price={item.price}
+              price={item.price_value}
               year={item.prod_year}
               carRun={item.car_run_km}
-              carname={cardInformation.brandName}
+              man_id={item.man_id}
               engine={(item.engine_volume / 1000).toFixed(1)}
+              customs_passed={item.customs_passed}
+              right_wheel={item.right_wheel}
+              gear_type_id={item.gear_type_id}
+              fuel_type_id={item.fuel_type_id}
+              location_id={item.location_id}
+              pirmebi={pirmebi}
+              brendebi={DataModel}
+              model_id={item.model_id}
             />
           ))}
         </CardWrapper>
@@ -57,6 +67,7 @@ const CardWrapper = styled.div`
   width: 100%;
   gap: 16px;
   margin-top: 16px;
+  margin-bottom: 100px;
 `;
 
 const WrapperDiv = styled.div`
