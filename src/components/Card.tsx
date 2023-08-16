@@ -205,7 +205,7 @@ const Gel = styled.div<{ isDollar: any }>`
   font-family: "YourFontName";
   color: ${(props) => (props.isDollar ? "white" : "rgba(140, 146, 155, 1)")};
   background-color: ${(props) =>
-    props.isDollar ? "rgba(39, 42, 55, 1)" : "white"};
+    props.isDollar ? "rgba(39, 42, 55, 1)" : "rgba(242, 242, 246, 1)"};
 `;
 
 const Clearance = styled.div`

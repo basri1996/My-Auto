@@ -44,12 +44,8 @@ function Search() {
       params: {
         Mans: `${apiInformation.man_id}${apiInformation.model_id}`,
         Cats: apiInformation.category_id,
-        PriceFrom: apiInformation.isDollar
-          ? +apiInformation.PriceFrom * 2.62076923
-          : apiInformation.PriceFrom,
-        PriceTo: apiInformation.isDollar
-          ? +apiInformation.PriceTo * 2.62076923
-          : apiInformation.PriceTo,
+        PriceFrom: apiInformation.PriceFrom,
+        PriceTo: apiInformation.PriceTo,
         ForRent: apiInformation.forRent ? "1" : "0",
       },
     });
@@ -233,7 +229,9 @@ function Search() {
             onChange={(e: any) => {
               setApiInformation((prev: any) => ({
                 ...prev,
-                PriceFrom: +e.target.value,
+                PriceFrom: apiInformation.isDollar
+                  ? +e.target.value * 2.62076923
+                  : e.target.value,
               }));
             }}
           />
@@ -243,7 +241,9 @@ function Search() {
             onChange={(e: any) => {
               setApiInformation((prev: any) => ({
                 ...prev,
-                PriceTo: +e.target.value,
+                PriceTo: apiInformation.isDollar
+                  ? +e.target.value * 2.62076923
+                  : e.target.value,
               }));
             }}
           />
