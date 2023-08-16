@@ -21,4 +21,7 @@ const Logo = styled.img`
   height: 46px;
   margin-top: 17px;
   margin-left: 10%;
+  @media (min-width: 768px) {
+    margin-left: 5%;
+  }
 `;

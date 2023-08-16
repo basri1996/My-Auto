@@ -1,28 +1,28 @@
 import styled from "styled-components";
+import { SearchCompContext } from "../SearchCompContext";
+import { useContext } from "react";
 
-function InputComponent({
-  title,
-  filteredData,
-  fetchModels,
-  setApiInformation,
-}: any) {
+function InputComponent({ title, fetchModels }: any) {
+  const { setApiInformation, Type, Data } = useContext(SearchCompContext);
   function GetManId(brand: any) {
-    const Mybrand = filteredData.find((item: any) => item.man_name === brand);
+    const Mybrand = Data.filteredBrands.find(
+      (item: any) => item.man_name === brand
+    );
     setApiInformation((prev: any) => ({ ...prev, man_id: Mybrand.man_id }));
     fetchModels(Mybrand.man_id);
   }
 
   function GetCatId(title: any) {
-    const MyCategorie = filteredData.find((item: any) => item.title === title);
+    const MyCategorie = Data.filteredCategories.find(
+      (item: any) => item.title === title
+    );
     setApiInformation((prev: any) => ({
       ...prev,
       category_id: MyCategorie.category_id,
     }));
   }
   function GetModelId(model: any) {
-    const MyModel = filteredData.find((item: any) => item.model_name === model);
-    console.log(MyModel);
-    console.log(model);
+    const MyModel = Data.models.find((item: any) => item.model_name === model);
     setApiInformation((prev: any) => ({
       ...prev,
       model_id: "." + MyModel.model_id,
@@ -47,7 +47,7 @@ function InputComponent({
 
   let OptionVar = (
     <Input onChange={(e: any) => IsForRent(e.target.value)}>
-      {filteredData.map((item: any) => (
+      {Type.map((item: any) => (
         <Option key={item}>{item}</Option>
       ))}
     </Input>
@@ -61,7 +61,7 @@ function InputComponent({
         }}
       >
         <Option>ყველა მწარმოებელი</Option>
-        {filteredData.map((item: any) => (
+        {Data.filteredBrands.map((item: any) => (
           <Option key={item.man_id}>{item.man_name}</Option>
         ))}
       </Input>
@@ -76,7 +76,7 @@ function InputComponent({
         }}
       >
         <Option>ყველა კატეგორია</Option>
-        {filteredData.map((item: any) => (
+        {Data.filteredCategories.map((item: any) => (
           <Option key={item.category_id}>{item.title}</Option>
         ))}
       </Input>
@@ -90,7 +90,7 @@ function InputComponent({
         }}
       >
         <Option>ყველა მოდელი</Option>
-        {filteredData.map((item: any) => (
+        {Data.models.map((item: any) => (
           <Option key={item.model_id}>{item.model_name}</Option>
         ))}
       </Input>

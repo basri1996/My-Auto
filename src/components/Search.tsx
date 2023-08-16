@@ -5,32 +5,20 @@ import tractor from "../assets/tractor.svg";
 import car2 from "../assets/car2.svg";
 import moto2 from "../assets/moto2.svg";
 import tractor2 from "../assets/tractor2.svg";
-import { useState, useEffect, useCallback } from "react";
+import { useEffect, useCallback, useContext } from "react";
 import InputComponent from "./InputComponent";
 import axios from "axios";
+import { SearchCompContext } from "../SearchCompContext";
 
-function Search({ setMappedData, setPirmebi, setDataModel }) {
-  const [Data, setData] = useState({
-    brands: [],
-    filteredBrands: [],
-    categories: [],
-    filteredCategories: [],
-    models: [],
-  });
-
-  const [apiInformation, setApiInformation] = useState({
-    man_id: "",
-    category_id: "",
-    model_id: "",
-    forRent: false,
-    forSale: true,
-    is_car: true,
-    is_moto: false,
-    is_spec: false,
-    PriceFrom: "",
-    PriceTo: "",
-    isDollar: false,
-  });
+function Search() {
+  const {
+    Data,
+    setData,
+    apiInformation,
+    setApiInformation,
+    setMappedData,
+    setDataModel,
+  } = useContext(SearchCompContext);
 
   async function Api(number: any) {
     const response = await axios.get(
@@ -143,7 +131,6 @@ function Search({ setMappedData, setPirmebi, setDataModel }) {
       ...prev,
       brands: response.data,
     }));
-    setPirmebi(response.data);
   }, []);
   const fetchCategories = useCallback(async () => {
     const response = await axios.get("https://api2.myauto.ge/ka/cats/get");
@@ -203,27 +190,10 @@ function Search({ setMappedData, setPirmebi, setDataModel }) {
         </IconDiv3>
       </CategoryDiv>
       <InputDiv>
-        <InputComponent
-          setApiInformation={setApiInformation}
-          title={"გარიგების ტიპი"}
-          filteredData={Type}
-        />
-        <InputComponent
-          setApiInformation={setApiInformation}
-          title={"მწარმოებელი"}
-          filteredData={Data.filteredBrands}
-          fetchModels={fetchModels}
-        />
-        <InputComponent
-          setApiInformation={setApiInformation}
-          title={"კატეგორია"}
-          filteredData={Data.filteredCategories}
-        />
-        <InputComponent
-          setApiInformation={setApiInformation}
-          title={"მოდელი"}
-          filteredData={Data.models}
-        />
+        <InputComponent title={"გარიგების ტიპი"} filteredData={Type} />
+        <InputComponent title={"მწარმოებელი"} fetchModels={fetchModels} />
+        <InputComponent title={"კატეგორია"} />
+        <InputComponent title={"მოდელი"} />
       </InputDiv>
       <PriceDiv>
         <TopDiv>
@@ -297,7 +267,11 @@ const MainDiv = styled.div`
   border-radius: 12px 12px 0 0;
   margin-top: 16px;
   @media (min-width: 768px) {
-    width: 75%;
+    width: 85%;
+    margin-left: 5%;
+  }
+  @media (min-width: 1000px) {
+    width: 70%;
     margin-left: 5%;
   }
   @media (min-width: 1440px) {
