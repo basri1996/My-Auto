@@ -57,7 +57,7 @@ function InputComponent({ title, fetchModels }: any) {
     OptionVar = (
       <Input
         onChange={(e) => {
-          GetManId(e.target.value);
+          e.target.value != "ყველა მწარმოებელი" && GetManId(e.target.value);
         }}
       >
         <Option>ყველა მწარმოებელი</Option>
@@ -72,7 +72,7 @@ function InputComponent({ title, fetchModels }: any) {
     OptionVar = (
       <Input
         onChange={(e) => {
-          GetCatId(e.target.value);
+          e.target.value != "ყველა კატეგორია" && GetCatId(e.target.value);
         }}
       >
         <Option>ყველა კატეგორია</Option>
@@ -86,7 +86,7 @@ function InputComponent({ title, fetchModels }: any) {
     OptionVar = (
       <Input
         onChange={(e: any) => {
-          GetModelId(e.target.value);
+          e.target.value != "ყველა მოდელი" && GetModelId(e.target.value);
         }}
       >
         <Option>ყველა მოდელი</Option>
