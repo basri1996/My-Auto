@@ -44,8 +44,12 @@ function Search() {
       params: {
         Mans: `${apiInformation.man_id}${apiInformation.model_id}`,
         Cats: apiInformation.category_id,
-        PriceFrom: apiInformation.PriceFrom,
-        PriceTo: apiInformation.PriceTo,
+        PriceFrom: apiInformation.isDollar
+          ? +apiInformation.PriceFrom * 2.62076923
+          : apiInformation.PriceFrom,
+        PriceTo: apiInformation.isDollar
+          ? +apiInformation.PriceTo * 2.62076923
+          : apiInformation.PriceTo,
         ForRent: apiInformation.forRent ? "1" : "0",
       },
     });
