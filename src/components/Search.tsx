@@ -47,6 +47,7 @@ function Search() {
         PriceFrom: apiInformation.PriceFrom,
         PriceTo: apiInformation.PriceTo,
         ForRent: apiInformation.forRent ? "1" : "0",
+        SortOrder: "4",
       },
     });
 

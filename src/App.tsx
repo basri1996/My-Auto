@@ -9,8 +9,33 @@ import { useContext } from "react";
 import { SearchCompContext } from "./SearchCompContext";
 
 function App() {
-  const { MappedData } = useContext(SearchCompContext);
+  const {
+    MappedData,
+    apiInformation,
+    IsCarCatIds,
+    isMotoCatIds,
+    isSpecCatIds,
+  } = useContext(SearchCompContext);
+  console.log("map", MappedData);
 
+  const FilterMappedData = () => {
+    if (apiInformation.is_car === true) {
+      const Filtered = MappedData.filter((item: any) =>
+        IsCarCatIds.includes(item.category_id)
+      );
+      return Filtered;
+    } else if (apiInformation.is_moto === true) {
+      const Filtered = MappedData.filter((item: any) =>
+        isMotoCatIds.includes(item.category_id)
+      );
+      return Filtered;
+    } else if (apiInformation.is_spec === true) {
+      const Filtered = MappedData.filter((item: any) =>
+        isSpecCatIds.includes(item.category_id)
+      );
+      return Filtered;
+    }
+  };
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles />
@@ -24,7 +49,7 @@ function App() {
       <WrapperDiv>
         <Search />
         <CardWrapper>
-          {MappedData.map((item: any) => (
+          {FilterMappedData().map((item: any) => (
             <Card
               photo={item.photo}
               ProductId={item.car_id}
@@ -41,6 +66,7 @@ function App() {
               gear_type_id={item.gear_type_id}
               fuel_type_id={item.fuel_type_id}
               location_id={item.location_id}
+              category_id={item.category_id}
             />
           ))}
         </CardWrapper>

@@ -18,8 +18,11 @@ function Card({
   gear_type_id,
   fuel_type_id,
   model_id,
+  category_id,
+  location_id,
 }: any) {
   const { Data, DataModel, apiInformation } = useContext(SearchCompContext);
+  console.log("location", location_id);
   let GearType = () => {
     if (gear_type_id == "1") {
       return "მექანიკა";
@@ -32,7 +35,7 @@ function Card({
     }
   };
 
-  let FuelType = () => {
+  const FuelType = () => {
     if (fuel_type_id == "2") {
       return "ბენზინი";
     } else if (fuel_type_id == "3") {
@@ -48,13 +51,42 @@ function Card({
     }
   };
 
-  let TitleFinder = (id: any) => {
+  const LocationFinder = () => {
+    if (location_id == "30") {
+      return "რუსთავის ავტობაზრობა";
+    } else if (location_id == "2") {
+      return "თბილისი";
+    } else if (location_id == "4") {
+      return "ბათუმი";
+    } else if (location_id == "23") {
+      return "გზაში საქ.-სკენ";
+    } else if (location_id == "3") {
+      return "ქუთაისი";
+    } else if (location_id == "113") {
+      return "კავკასიის ავტომარკეტი";
+    } else if (location_id == "12") {
+      return "ხაშური";
+    } else if (location_id == "21") {
+      return "აშშ";
+    } else if (location_id == "15") {
+      return "რუსთავი";
+    } else {
+      return location_id;
+    }
+  };
+
+  const TitleFinder = (id: any) => {
     let data = Data.brands.find((item: any) => item.man_id == id);
     return data.man_name;
   };
-  let ModelFinder = (id: any) => {
+  const ModelFinder = (id: any) => {
     let data = DataModel.find((item: any) => item.model_id == id);
     return data.model_name;
+  };
+
+  const CategoryFinder = (id: any) => {
+    let data = Data.categories.find((item: any) => item.category_id == id);
+    return data.title;
   };
 
   return (
@@ -107,11 +139,11 @@ function Card({
             <InfoTag>{GearType()}</InfoTag>
           </LeftColumn>
           <RightColumn>
-            <InfoTag>სედანი</InfoTag>
+            <InfoTag>{CategoryFinder(category_id)}</InfoTag>
             <InfoTag>{right_wheel ? "მარჯვენა" : "მარცხენა"}</InfoTag>
             <LocationTag>
               <Icon src={flag} />
-              <InfoTag>თბილისი</InfoTag>
+              <InfoTag>{LocationFinder()}</InfoTag>
             </LocationTag>
           </RightColumn>
         </FooterDiv>
@@ -294,14 +326,15 @@ const AutoImage2 = styled.img`
 const FooterDiv = styled.div`
   display: flex;
   margin-top: 15px;
-  justify-content: space-between;
   width: 100%;
+  gap: 50px;
 `;
 
 const LeftColumn = styled.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
+  width: 100%;
 `;
 
 const RightColumn = styled.div`
@@ -309,6 +342,7 @@ const RightColumn = styled.div`
   flex-direction: column;
   gap: 7px;
   margin-right: 20%;
+  width: 100%;
 `;
 
 const InfoTag = styled.h1`
@@ -322,4 +356,5 @@ const InfoTag = styled.h1`
 const LocationTag = styled.div`
   display: flex;
   gap: 5px;
+  align-items: center;
 `;

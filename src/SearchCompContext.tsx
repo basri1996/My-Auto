@@ -53,6 +53,9 @@ type SearchCompContextType = {
   setMappedData: any;
   DataModel: any;
   setDataModel: any;
+  IsCarCatIds: any;
+  isMotoCatIds: any;
+  isSpecCatIds: any;
 };
 
 export const SearchCompContext = createContext<SearchCompContextType>(
@@ -81,10 +84,19 @@ export function SearchCompContextProvider({ children }) {
     PriceTo: "",
     isDollar: false,
   });
+
+  const IsCarCatIds = [0, 5, 4, 2, 3, 6, 29, 30, 7, 13, 15, 66];
+  const isMotoCatIds = [17, 31, 33, 21, 47, 46, 32];
+  const isSpecCatIds = [
+    36, 16, 38, 27, 23, 25, 20, 19, 28, 42, 37, 44, 43, 40, 14, 39, 45, 50, 53,
+    24, 26, 48, 35, 41, 57, 65, 61, 49,
+  ];
+
   const Type = ["იყიდება", "ქირავდება"];
   const [MappedData, setMappedData] = useState([]);
   const [DataModel, setDataModel] = useState([]);
 
+  console.log("categoriedw", Data.filteredCategories);
   return (
     <SearchCompContext.Provider
       value={{
@@ -97,6 +109,9 @@ export function SearchCompContextProvider({ children }) {
         setMappedData,
         DataModel,
         setDataModel,
+        IsCarCatIds,
+        isMotoCatIds,
+        isSpecCatIds,
       }}
     >
       {children}
