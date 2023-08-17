@@ -10,7 +10,7 @@ import InputComponent from "./InputComponent";
 import axios from "axios";
 import { SearchCompContext } from "../SearchCompContext";
 
-function Search() {
+function Search({ setLoaderVisible }) {
   const {
     Data,
     setData,
@@ -40,6 +40,7 @@ function Search() {
   }, []);
 
   async function SearchApi() {
+    setLoaderVisible(true);
     const response = await axios.get(`https://api2.myauto.ge/ka/products`, {
       params: {
         Mans: `${apiInformation.man_id}${apiInformation.model_id}`,
@@ -50,9 +51,8 @@ function Search() {
         SortOrder: "4",
       },
     });
-
-    console.log(response);
     setMappedData(response.data.data.items);
+    setLoaderVisible(false);
   }
 
   useEffect(() => {

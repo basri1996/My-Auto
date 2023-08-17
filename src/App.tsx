@@ -5,8 +5,9 @@ import { Helmet } from "react-helmet";
 import Header from "./components/Header";
 import Search from "./components/Search";
 import Card from "./components/Card";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { SearchCompContext } from "./SearchCompContext";
+import Loader from "./components/Loader";
 
 function App() {
   const {
@@ -16,7 +17,7 @@ function App() {
     isMotoCatIds,
     isSpecCatIds,
   } = useContext(SearchCompContext);
-  console.log("map", MappedData);
+  const [loaderVisible, setLoaderVisible] = useState(false);
 
   const FilterMappedData = () => {
     if (apiInformation.is_car === true) {
@@ -47,8 +48,9 @@ function App() {
       </Helmet>
       <Header />
       <WrapperDiv>
-        <Search />
+        <Search setLoaderVisible={setLoaderVisible} />
         <CardWrapper>
+          {loaderVisible && <Loader />}
           {FilterMappedData().map((item: any) => (
             <Card
               photo={item.photo}
