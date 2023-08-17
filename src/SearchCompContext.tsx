@@ -53,9 +53,9 @@ type SearchCompContextType = {
   setMappedData: any;
   DataModel: any;
   setDataModel: any;
-  IsCarCatIds: any;
-  isMotoCatIds: any;
-  isSpecCatIds: any;
+  IsCarCatIds: Array<number>;
+  isMotoCatIds: Array<number>;
+  isSpecCatIds: Array<number>;
 };
 
 export const SearchCompContext = createContext<SearchCompContextType>(

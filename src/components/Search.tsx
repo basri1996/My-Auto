@@ -206,6 +206,8 @@ function Search({ setLoaderVisible }) {
                 setApiInformation((prev: any) => ({
                   ...prev,
                   isDollar: false,
+                  PriceFrom: +apiInformation.PriceFrom / 2.62076923,
+                  PriceTo: +apiInformation.PriceTo / 2.62076923,
                 }));
               }}
             >
@@ -217,6 +219,8 @@ function Search({ setLoaderVisible }) {
                 setApiInformation((prev: any) => ({
                   ...prev,
                   isDollar: true,
+                  PriceFrom: +apiInformation.PriceFrom * 2.62076923,
+                  PriceTo: +apiInformation.PriceTo * 2.62076923,
                 }));
               }}
             >
@@ -253,6 +257,7 @@ function Search({ setLoaderVisible }) {
       <ButtonDiv>
         <ButtonSearch
           onClick={() => {
+            setMappedData([]);
             SearchApi();
           }}
         >
