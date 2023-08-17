@@ -49,7 +49,7 @@ function App() {
       <Header />
       <WrapperDiv>
         <Search setLoaderVisible={setLoaderVisible} />
-        <CardWrapper>
+        <CardWrapper loaderVisible={loaderVisible}>
           {loaderVisible && <Loader />}
           {FilterMappedData().map((item: any) => (
             <Card
@@ -79,14 +79,14 @@ function App() {
 
 export default App;
 
-const CardWrapper = styled.div`
+const CardWrapper = styled.div<{ loaderVisible: any }>`
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   width: 100%;
   gap: 16px;
-  margin-top: 16px;
+  margin-top: ${(props) => (props.loaderVisible === true ? "-100px" : "16px")};
   margin-bottom: 100px;
 `;
 

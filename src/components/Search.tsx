@@ -462,4 +462,8 @@ const ButtonSearch = styled.button`
   line-height: 14px;
   letter-spacing: 0px;
   color: white;
+  :hover {
+    cursor: pointer;
+    opacity: 0.7;
+  }
 `;
