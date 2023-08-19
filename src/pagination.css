@@ -43,7 +43,18 @@
   justify-content: center;
   align-items: center;
   border-radius: 10px;
-   
+  }
+  @media (min-width: 768px) {
+    .pagination {
+        width: 83%;
+        margin-left: -9%;
+    }
+  }
+  @media (min-width: 1440px) {
+    .pagination {
+        width: 80%;
+        margin-left: 0;
+    }
   }
   
   .previous {
