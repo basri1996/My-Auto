@@ -10,7 +10,7 @@ import InputComponent from "./InputComponent";
 import axios from "axios";
 import { SearchCompContext } from "../SearchCompContext";
 
-function Search({ setLoaderVisible }) {
+function Search() {
   const {
     Data,
     setData,
@@ -18,6 +18,8 @@ function Search({ setLoaderVisible }) {
     setApiInformation,
     setMappedData,
     setDataModel,
+    searchVisible,
+    SearchApi,
   } = useContext(SearchCompContext);
 
   async function Api(number: any) {
@@ -38,22 +40,6 @@ function Search({ setLoaderVisible }) {
   useEffect(() => {
     ModelAdder();
   }, []);
-
-  async function SearchApi() {
-    setLoaderVisible(true);
-    const response = await axios.get(`https://api2.myauto.ge/ka/products`, {
-      params: {
-        Mans: `${apiInformation.man_id}${apiInformation.model_id}`,
-        Cats: apiInformation.category_id,
-        PriceFrom: apiInformation.PriceFrom,
-        PriceTo: apiInformation.PriceTo,
-        ForRent: apiInformation.forRent ? "1" : "0",
-        SortOrder: "4",
-      },
-    });
-    setMappedData(response.data.data.items);
-    setLoaderVisible(false);
-  }
 
   useEffect(() => {
     if (apiInformation.man_id) {
@@ -157,7 +143,7 @@ function Search({ setLoaderVisible }) {
   }, [Data.categories]);
 
   return (
-    <MainDiv>
+    <MainDiv searchVisible={searchVisible}>
       <CategoryDiv>
         <IconDiv1
           car={apiInformation.is_car}
@@ -258,7 +244,7 @@ function Search({ setLoaderVisible }) {
         <ButtonSearch
           onClick={() => {
             setMappedData([]);
-            SearchApi();
+            SearchApi("1");
           }}
         >
           ძებნა
@@ -270,13 +256,15 @@ function Search({ setLoaderVisible }) {
 
 export default Search;
 
-const MainDiv = styled.div`
+const MainDiv = styled.div<{ searchVisible: boolean }>`
   width: 100%;
   height: 700px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 12px 12px 0 0;
   margin-top: 16px;
+  display: ${(props) => (props.searchVisible ? "inline-block" : "none")};
   @media (min-width: 768px) {
+    display: inline-block;
     width: 85%;
     margin-left: 5%;
   }

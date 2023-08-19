@@ -5,9 +5,11 @@ import { Helmet } from "react-helmet";
 import Header from "./components/Header";
 import Search from "./components/Search";
 import Card from "./components/Card";
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { SearchCompContext } from "./SearchCompContext";
 import Loader from "./components/Loader";
+import ReactPaginate from "react-paginate";
+import "./pagination.css";
 
 function App() {
   const {
@@ -16,27 +18,48 @@ function App() {
     IsCarCatIds,
     isMotoCatIds,
     isSpecCatIds,
+    setMappedData,
+    SearchApi,
+    loaderVisible,
+    pagesVisible,
+    setPagesVisible,
+    pageNumber,
   } = useContext(SearchCompContext);
-  const [loaderVisible, setLoaderVisible] = useState(false);
 
   const FilterMappedData = () => {
     if (apiInformation.is_car === true) {
       const Filtered = MappedData.filter((item: any) =>
         IsCarCatIds.includes(item.category_id)
       );
+      if (Filtered.length > 0) {
+        setPagesVisible(true);
+      }
       return Filtered;
     } else if (apiInformation.is_moto === true) {
       const Filtered = MappedData.filter((item: any) =>
         isMotoCatIds.includes(item.category_id)
       );
+      if (Filtered.length > 0) {
+        setPagesVisible(true);
+      }
       return Filtered;
     } else if (apiInformation.is_spec === true) {
       const Filtered = MappedData.filter((item: any) =>
         isSpecCatIds.includes(item.category_id)
       );
+      if (Filtered.length > 0) {
+        setPagesVisible(true);
+      }
       return Filtered;
     }
   };
+
+  function HandlePageChange(e: any) {
+    SearchApi(e.selected + 1);
+    setMappedData([]);
+    console.log("selected", e.selected);
+  }
+
   return (
     <ThemeProvider theme={defaultTheme}>
       <GlobalStyles />
@@ -48,7 +71,8 @@ function App() {
       </Helmet>
       <Header />
       <WrapperDiv>
-        <Search setLoaderVisible={setLoaderVisible} />
+        <Search />
+
         <CardWrapper loaderVisible={loaderVisible}>
           {loaderVisible && <Loader />}
           {FilterMappedData().map((item: any) => (
@@ -71,6 +95,25 @@ function App() {
               category_id={item.category_id}
             />
           ))}
+          {pagesVisible && (
+            <ReactPaginate
+              breakLabel="..."
+              nextLabel="next >"
+              onPageChange={HandlePageChange}
+              pageRangeDisplayed={5}
+              pageCount={pageNumber}
+              previousLabel="< previous"
+              renderOnZeroPageCount={null}
+              containerClassName="pagination"
+              pageClassName="page-item"
+              pageLinkClassName="page-link"
+              activeClassName="active"
+              previousClassName="page-item"
+              previousLinkClassName="page-link"
+              nextClassName="page-item"
+              nextLinkClassName="page-link"
+            />
+          )}
         </CardWrapper>
       </WrapperDiv>
     </ThemeProvider>

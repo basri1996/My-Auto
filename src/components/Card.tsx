@@ -81,7 +81,7 @@ function Card({
   };
   const ModelFinder = (id: any) => {
     let data = DataModel.find((item: any) => item.model_id == id);
-    return data.model_name;
+    return data?.model_name;
   };
 
   const CategoryFinder = (id: any) => {

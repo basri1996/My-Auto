@@ -1,3 +1,4 @@
+import axios from "axios";
 import { createContext, useState } from "react";
 
 type SearchCompContextType = {
@@ -56,6 +57,14 @@ type SearchCompContextType = {
   IsCarCatIds: Array<number>;
   isMotoCatIds: Array<number>;
   isSpecCatIds: Array<number>;
+  loaderVisible: any;
+  setLoaderVisible: any;
+  searchVisible: any;
+  setSearchVisible: any;
+  SearchApi: any;
+  pagesVisible: any;
+  setPagesVisible: any;
+  pageNumber: any;
 };
 
 export const SearchCompContext = createContext<SearchCompContextType>(
@@ -95,8 +104,33 @@ export function SearchCompContextProvider({ children }) {
   const Type = ["იყიდება", "ქირავდება"];
   const [MappedData, setMappedData] = useState([]);
   const [DataModel, setDataModel] = useState([]);
+  const [loaderVisible, setLoaderVisible] = useState(false);
+  const [searchVisible, setSearchVisible] = useState(true);
+  const [pagesVisible, setPagesVisible] = useState(false);
+  const [pageNumber, setPageNumber] = useState([]);
+  console.log("ddddd", pageNumber);
 
-  console.log("categoriedw", Data.filteredCategories);
+  async function SearchApi(number: any) {
+    setLoaderVisible(true);
+    setPagesVisible(false);
+    const response = await axios.get(`https://api2.myauto.ge/ka/products`, {
+      params: {
+        Mans: `${apiInformation.man_id}${apiInformation.model_id}`,
+        Cats: apiInformation.category_id,
+        PriceFrom: apiInformation.PriceFrom,
+        PriceTo: apiInformation.PriceTo,
+        ForRent: apiInformation.forRent ? "1" : "0",
+        SortOrder: "4",
+        Page: number,
+      },
+    });
+
+    setPageNumber(response.data.data.meta.last_page);
+    setMappedData(response.data.data.items);
+    setSearchVisible(false);
+    setLoaderVisible(false);
+  }
+
   return (
     <SearchCompContext.Provider
       value={{
@@ -112,6 +146,14 @@ export function SearchCompContextProvider({ children }) {
         IsCarCatIds,
         isMotoCatIds,
         isSpecCatIds,
+        loaderVisible,
+        setLoaderVisible,
+        searchVisible,
+        setSearchVisible,
+        SearchApi,
+        pagesVisible,
+        setPagesVisible,
+        pageNumber,
       }}
     >
       {children}
