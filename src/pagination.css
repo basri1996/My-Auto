@@ -46,12 +46,6 @@
    
   }
   
-  .pagination-page {
-    font-weight: 700;
-    font-size: 18px;
-    color:rgba(137, 150, 174, 1)
-  }
-  
   .previous {
     border-right: solid 1px #808e9b;
     font-size: 4px;
@@ -61,10 +55,8 @@
     width: 150px;
   }
 
-  .page-item{
-    font-size: 18px;
-    color:rgba(137, 150, 174, 1)
-  }
+  
+  
 
   
 

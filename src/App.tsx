@@ -98,11 +98,11 @@ function App() {
           {pagesVisible && (
             <ReactPaginate
               breakLabel="..."
-              nextLabel="next >"
+              nextLabel=">"
               onPageChange={HandlePageChange}
               pageRangeDisplayed={5}
               pageCount={pageNumber}
-              previousLabel="< previous"
+              previousLabel="<"
               renderOnZeroPageCount={null}
               containerClassName="pagination"
               pageClassName="page-item"

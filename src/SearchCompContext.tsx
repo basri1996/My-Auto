@@ -112,7 +112,6 @@ export function SearchCompContextProvider({ children }) {
 
   async function SearchApi(number: any) {
     setLoaderVisible(true);
-    setPagesVisible(false);
     const response = await axios.get(`https://api2.myauto.ge/ka/products`, {
       params: {
         Mans: `${apiInformation.man_id}${apiInformation.model_id}`,
