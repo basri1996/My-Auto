@@ -183,7 +183,7 @@ const MainDiv = styled.div`
   width: 100%;
   border-radius: 12px 12px 0 0;
   @media (min-width: 768px) {
-    width: 90%;
+    width: 100%;
   }
   @media (min-width: 1440px) {
     width: 50%;

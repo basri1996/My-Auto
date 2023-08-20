@@ -39,15 +39,15 @@
     position: relative;
     width: 100%;
   height: 45px;
-  gap: 4px;
+  gap: 6px;
   justify-content: center;
   align-items: center;
   border-radius: 10px;
   }
   @media (min-width: 768px) {
     .pagination {
-        width: 83%;
-        margin-left: -9%;
+        width: 100%;
+        
     }
   }
   @media (min-width: 1440px) {
@@ -66,6 +66,14 @@
     width: 150px;
   }
 
+  .page-item{
+    font-size: 15px;
+    font-family: "YourFontName";
+  }
+
+  .page-item:hover {
+   cursor: pointer;
+  }
   
   
 

@@ -189,11 +189,17 @@ function Search() {
             <Gel
               isDollar={apiInformation.isDollar}
               onClick={() => {
+                +apiInformation.PriceFrom > 0 ||
+                  (+apiInformation.PriceTo > 0 &&
+                    setApiInformation((prev: any) => ({
+                      ...prev,
+                      isDollar: false,
+                      PriceFrom: +apiInformation.PriceFrom / 2.62076923,
+                      PriceTo: +apiInformation.PriceTo / 2.62076923,
+                    })));
                 setApiInformation((prev: any) => ({
                   ...prev,
                   isDollar: false,
-                  PriceFrom: +apiInformation.PriceFrom / 2.62076923,
-                  PriceTo: +apiInformation.PriceTo / 2.62076923,
                 }));
               }}
             >
@@ -202,11 +208,18 @@ function Search() {
             <Dollar
               isDollar={apiInformation.isDollar}
               onClick={() => {
+                +apiInformation.PriceFrom > 0 ||
+                  (+apiInformation.PriceTo > 0 &&
+                    setApiInformation((prev: any) => ({
+                      ...prev,
+                      isDollar: true,
+                      PriceFrom: +apiInformation.PriceFrom * 2.62076923,
+                      PriceTo: +apiInformation.PriceTo * 2.62076923,
+                    })));
+
                 setApiInformation((prev: any) => ({
                   ...prev,
                   isDollar: true,
-                  PriceFrom: +apiInformation.PriceFrom * 2.62076923,
-                  PriceTo: +apiInformation.PriceTo * 2.62076923,
                 }));
               }}
             >
@@ -244,7 +257,7 @@ function Search() {
         <ButtonSearch
           onClick={() => {
             setMappedData([]);
-            SearchApi("1");
+            SearchApi(1);
           }}
         >
           ძებნა
