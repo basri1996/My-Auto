@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import Header from "./components/Header";
 import Search from "./components/Search";
 import Card from "./components/Card";
-import { useContext, useLayoutEffect } from "react";
+import { useContext, useEffect, useLayoutEffect } from "react";
 import { SearchCompContext } from "./SearchCompContext";
 import Loader from "./components/Loader";
 import ReactPaginate from "react-paginate";
@@ -63,6 +63,9 @@ function App() {
   useLayoutEffect(() => {
     window.scrollTo(0, 0);
   });
+  useEffect(() => {
+    SearchApi("1");
+  }, []);
 
   return (
     <ThemeProvider theme={defaultTheme}>
