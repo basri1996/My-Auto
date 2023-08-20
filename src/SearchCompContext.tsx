@@ -59,8 +59,6 @@ type SearchCompContextType = {
   isSpecCatIds: Array<number>;
   loaderVisible: any;
   setLoaderVisible: any;
-  searchVisible: any;
-  setSearchVisible: any;
   SearchApi: any;
   pagesVisible: any;
   setPagesVisible: any;
@@ -105,7 +103,6 @@ export function SearchCompContextProvider({ children }) {
   const [MappedData, setMappedData] = useState([]);
   const [DataModel, setDataModel] = useState([]);
   const [loaderVisible, setLoaderVisible] = useState(false);
-  const [searchVisible, setSearchVisible] = useState(true);
   const [pagesVisible, setPagesVisible] = useState(false);
   const [pageNumber, setPageNumber] = useState([]);
   console.log("ddddd", pageNumber);
@@ -126,7 +123,6 @@ export function SearchCompContextProvider({ children }) {
 
     setPageNumber(response.data.data.meta.last_page);
     setMappedData(response.data.data.items);
-    setSearchVisible(false);
     setLoaderVisible(false);
   }
 
@@ -147,8 +143,6 @@ export function SearchCompContextProvider({ children }) {
         isSpecCatIds,
         loaderVisible,
         setLoaderVisible,
-        searchVisible,
-        setSearchVisible,
         SearchApi,
         pagesVisible,
         setPagesVisible,

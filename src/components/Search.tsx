@@ -18,7 +18,6 @@ function Search() {
     setApiInformation,
     setMappedData,
     setDataModel,
-    searchVisible,
     SearchApi,
   } = useContext(SearchCompContext);
 
@@ -143,7 +142,7 @@ function Search() {
   }, [Data.categories]);
 
   return (
-    <MainDiv searchVisible={searchVisible}>
+    <MainDiv>
       <CategoryDiv>
         <IconDiv1
           car={apiInformation.is_car}
@@ -269,15 +268,13 @@ function Search() {
 
 export default Search;
 
-const MainDiv = styled.div<{ searchVisible: boolean }>`
+const MainDiv = styled.div`
   width: 100%;
   height: 700px;
   background-color: rgba(255, 255, 255, 1);
   border-radius: 12px 12px 0 0;
   margin-top: 16px;
-  display: ${(props) => (props.searchVisible ? "inline-block" : "none")};
   @media (min-width: 768px) {
-    display: inline-block;
     width: 85%;
     margin-left: 5%;
   }
