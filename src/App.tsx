@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import Header from "./components/Header";
 import Search from "./components/Search";
 import Card from "./components/Card";
-import { useContext, useEffect, useLayoutEffect } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { SearchCompContext } from "./SearchCompContext";
 import Loader from "./components/Loader";
 import ReactPaginate from "react-paginate";
@@ -25,6 +25,14 @@ function App() {
     setPagesVisible,
     pageNumber,
   } = useContext(SearchCompContext);
+
+  const [screenWidth, setScreenWidth] = useState(0);
+
+  const refRender = useRef(0);
+
+  refRender.current += 1;
+
+  console.log(refRender.current);
 
   const FilterMappedData = () => {
     if (apiInformation.is_car === true) {
@@ -55,15 +63,39 @@ function App() {
   };
 
   function HandlePageChange(e: any) {
-    SearchApi(e.selected + 1);
     setMappedData([]);
+    SearchApi(e.selected + 1);
     console.log("selected", e.selected);
   }
-
-  useLayoutEffect(() => {
-    window.scrollTo(0, 0);
-  });
   useEffect(() => {
+    const handleResize = () => {
+      setScreenWidth(window.innerWidth);
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    setScreenWidth(window.innerWidth);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (screenWidth >= 768) {
+      window.scrollTo(0, 0);
+    }
+  }, [HandlePageChange]);
+
+  useEffect(() => {
+    if (refRender.current > 381) {
+      if (screenWidth < 768) {
+        window.scrollTo(800, 800);
+      }
+    }
+  }, [HandlePageChange]);
+  useEffect(() => {
+    setMappedData([]);
     SearchApi("1");
   }, []);
 
