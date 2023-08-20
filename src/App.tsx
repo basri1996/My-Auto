@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import Header from "./components/Header";
 import Search from "./components/Search";
 import Card from "./components/Card";
-import { useContext, useLayoutEffect, useRef } from "react";
+import { useContext, useLayoutEffect } from "react";
 import { SearchCompContext } from "./SearchCompContext";
 import Loader from "./components/Loader";
 import ReactPaginate from "react-paginate";
@@ -142,16 +142,4 @@ const WrapperDiv = styled.div`
     display: flex;
     width: 100%;
   }
-`;
-
-const TextNotFound = styled.h1`
-  font-size: 30px;
-  font-weight: 400;
-  line-height: 17px;
-  font-family: "YourFontName";
-  color: rgba(253, 65, 0, 1);
-  border: 2px solid rgba(253, 65, 0, 1);
-  border-radius: 20px;
-  padding: 50px;
-  opacity: 70%;
 `;
