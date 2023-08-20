@@ -3,12 +3,11 @@ import logo from "../assets/logo.png";
 import { SearchCompContext } from "../SearchCompContext";
 import { useContext } from "react";
 function Header() {
-  const { setMappedData, setSearchVisible, setPagesVisible } =
-    useContext(SearchCompContext);
+  const { setMappedData, setPagesVisible } = useContext(SearchCompContext);
   return (
     <MainDiv
       onClick={() => {
-        setSearchVisible(true), setMappedData([]);
+        setMappedData([]);
         setPagesVisible(false);
       }}
     >
